@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const apiRoutes = require('../routes/index');
+const apiRoutes = require('./routes/index');
 const path = require('path');
 const xssClean = require('xss-clean');
 require('dotenv').config();
@@ -31,11 +31,11 @@ app.use('/api', apiRoutes);
 // In Vercel, public files are served automatically.
 // For local dev with `node api/index.js`, we'll serve public folder manually:
 if (process.env.NODE_ENV !== 'production') {
-  app.use(express.static(path.join(__dirname, '../public')));
+  app.use(express.static(path.join(__dirname, './public')));
   
   app.get('*', (req, res) => {
     if (!req.path.startsWith('/api')) {
-      res.sendFile(path.join(__dirname, '../public/index.html'));
+      res.sendFile(path.join(__dirname, './public/index.html'));
     }
   });
 }
