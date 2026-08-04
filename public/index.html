@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#5865F2">
+  <title>Comic Money Pro</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Google Fonts: Comic/Modern Feel -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="user-info">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar" class="avatar">
+        <div>
+          <h1 id="greeting">Good Morning!</h1>
+          <p class="subtitle">Comic Money Pro</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="notificationsBtn"><i class="fa-solid fa-bell"></i></button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="app-main" id="main-content">
+      
+      <!-- DASHBOARD VIEW -->
+      <section id="view-dashboard" class="view active">
+        
+        <div class="balance-card comic-card">
+          <h2>Total Balance</h2>
+          <h1 id="display-balance">$0.00</h1>
+          <div class="card-glass-shine"></div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box comic-card income">
+            <div class="icon-circle"><i class="fa-solid fa-arrow-down"></i></div>
+            <div>
+              <p>Income</p>
+              <h3 id="display-income">$0.00</h3>
+            </div>
+          </div>
+          <div class="stat-box comic-card expense">
+            <div class="icon-circle"><i class="fa-solid fa-arrow-up"></i></div>
+            <div>
+              <p>Expense</p>
+              <h3 id="display-expense">$0.00</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Assistant / Boros Detector -->
+        <div class="boros-detector comic-bubble">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Smarty" class="mascot" alt="Mascot">
+          <div class="speech-bubble">
+            <p id="ai-message">Loading AI insights...</p>
+          </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="section-title">
+          <h3>Recent Transactions</h3>
+          <button class="text-btn">See All</button>
+        </div>
+        
+        <div class="transaction-list" id="transaction-list">
+          <!-- Populated by JS -->
+        </div>
+        
+      </section>
+
+      <!-- ADD TRANSACTION VIEW -->
+      <section id="view-add" class="view">
+        <div class="comic-card">
+          <h2>Add Transaction</h2>
+          <form id="add-tx-form">
+            <div class="form-group toggle-group">
+              <input type="radio" id="type-expense" name="txType" value="expense" checked>
+              <label for="type-expense" class="toggle-btn expense-toggle">Expense</label>
+              
+              <input type="radio" id="type-income" name="txType" value="income">
+              <label for="type-income" class="toggle-btn income-toggle">Income</label>
+            </div>
+
+            <div class="form-group">
+              <label>Amount</label>
+              <input type="number" id="txAmount" placeholder="$0.00" required step="0.01">
+            </div>
+
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" id="txTitle" placeholder="What was this for?" required>
+            </div>
+
+            <div class="form-group">
+              <label>Category</label>
+              <select id="txCategory">
+                <option value="Food">Food & Snack</option>
+                <option value="Transportation">Transportation</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Salary">Salary (Income)</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            
+            <button type="submit" class="primary-btn comic-btn">Save</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- GOALS VIEW -->
+      <section id="view-goals" class="view">
+        <div class="section-title">
+          <h3>Savings Goals</h3>
+          <button class="icon-btn"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <div id="goals-list" class="goals-list">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- SETTINGS VIEW -->
+      <section id="view-settings" class="view">
+        <div class="comic-card settings-card">
+          <h2>Settings</h2>
+          <ul class="settings-list">
+            <li>
+              <span><i class="fa-solid fa-moon"></i> Dark Mode</span>
+              <label class="switch"><input type="checkbox" id="theme-toggle"><span class="slider round"></span></label>
+            </li>
+            <li>
+              <span><i class="fa-solid fa-cloud-arrow-down"></i> Export Data</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="#" class="nav-item active" data-target="view-dashboard">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+      </a>
+      <a href="#" class="nav-item" data-target="view-goals">
+        <i class="fa-solid fa-bullseye"></i>
+        <span>Goals</span>
+      </a>
+      <div class="nav-fab-container">
+        <button class="fab comic-btn" id="fab-add" data-target="view-add">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+      <a href="#" class="nav-item" data-target="view-reports">
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Reports</span>
+      </a>
+      <a href="#" class="nav-item" data-target="view-settings">
+        <i class="fa-solid fa-gear"></i>
+        <span>Settings</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
