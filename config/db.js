@@ -2,11 +2,12 @@ const fs = require('fs/promises');
 const path = require('path');
 const { Pool } = require('pg');
 
-const isProd = process.env.NODE_ENV === 'production';
-const localDbPath = path.join(__dirname, '../database/local.json');
+const isProd = false; // Disabled postgres for now
+const localDbPath = process.env.VERCEL ? '/tmp/local.json' : path.join(__dirname, '../database/local.json');
 
 let pool;
-if (isProd) {
+if (process.env.DATABASE_URL) {
+  // Just in case it's still needed somewhere else, but won't be used for queries since isProd=false
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
