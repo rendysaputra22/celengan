@@ -39,6 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
   else if(hour < 18) greeting = 'Good Afternoon!';
   document.getElementById('greeting').innerText = greeting;
 
+  // Notification Button
+  document.getElementById('notificationsBtn').addEventListener('click', () => {
+    alert('Tidak ada notifikasi baru untuk saat ini! 🦸‍♂️');
+  });
+
   // State Management
   let state = {
     transactions: [],
@@ -144,10 +149,13 @@ document.addEventListener('DOMContentLoaded', () => {
         loadData();
         // Go back to home
         document.querySelector('[data-target="view-dashboard"]').click();
+      } else {
+        const errData = await res.json();
+        alert('Gagal menyimpan data: ' + (errData.error || 'Terjadi kesalahan server. Jika di Vercel, pastikan DATABASE_URL Supabase sudah di-set!'));
       }
     } catch (err) {
       console.error(err);
-      alert('Failed to add transaction');
+      alert('Gagal menghubungi server.');
     }
   });
 
