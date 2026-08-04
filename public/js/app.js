@@ -108,11 +108,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Add Transaction
+  const txAmountInput = document.getElementById('txAmount');
+  
+  // Auto-format the input with dots for IDR currency
+  txAmountInput.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/[^,\d]/g, ''); // Allow only digits and comma
+    if(value) {
+      // If there is a comma, we handle decimals (though IDR mostly uses integers)
+      let parts = value.split(',');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      e.target.value = parts.join(',');
+    } else {
+      e.target.value = '';
+    }
+  });
+
   const addForm = document.getElementById('add-tx-form');
   addForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const type = document.querySelector('input[name="txType"]:checked').value;
-    const amount = document.getElementById('txAmount').value;
+    // Remove dots and replace comma with dot for standard JS float parsing
+    const rawAmount = document.getElementById('txAmount').value.replace(/\./g, '').replace(',', '.');
+    const amount = parseFloat(rawAmount);
     const title = document.getElementById('txTitle').value;
     const category = document.getElementById('txCategory').value;
 
