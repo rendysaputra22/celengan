@@ -1,41 +1,39 @@
 const { isProd, pool, getLocalDb, saveLocalDb } = require('../config/db');
 const { v4: uuidv4 } = require('uuid');
 
-// A simple DB abstraction for Demo/Production setup.
-// Note: Real production would use proper Postgres tables. We simulate simple tables if in Prod.
-// For this MVP, we will assume tables: transactions, goals, budgets
-
 const initProdDb = async () => {
   if (!isProd) return;
-  const client = await pool.connect();
   try {
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS transactions (
-        id VARCHAR(50) PRIMARY KEY,
-        type VARCHAR(10),
-        title VARCHAR(100),
-        amount NUMERIC,
-        category VARCHAR(50),
-        date TIMESTAMP,
-        description TEXT
-      );
-      CREATE TABLE IF NOT EXISTS goals (
-        id VARCHAR(50) PRIMARY KEY,
-        title VARCHAR(100),
-        target_amount NUMERIC,
-        current_amount NUMERIC
-      );
-      CREATE TABLE IF NOT EXISTS budgets (
-        id VARCHAR(10) PRIMARY KEY,
-        daily NUMERIC,
-        weekly NUMERIC,
-        monthly NUMERIC
-      );
-    `);
+    const client = await pool.connect();
+    try {
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS transactions (
+          id VARCHAR(50) PRIMARY KEY,
+          type VARCHAR(10),
+          title VARCHAR(100),
+          amount NUMERIC,
+          category VARCHAR(50),
+          date TIMESTAMP,
+          description TEXT
+        );
+        CREATE TABLE IF NOT EXISTS goals (
+          id VARCHAR(50) PRIMARY KEY,
+          title VARCHAR(100),
+          target_amount NUMERIC,
+          current_amount NUMERIC
+        );
+        CREATE TABLE IF NOT EXISTS budgets (
+          id VARCHAR(10) PRIMARY KEY,
+          daily NUMERIC,
+          weekly NUMERIC,
+          monthly NUMERIC
+        );
+      `);
+    } finally {
+      client.release();
+    }
   } catch (err) {
-    console.error('Error init prod db', err);
-  } finally {
-    client.release();
+    console.error('Error init prod db', err.message);
   }
 };
 

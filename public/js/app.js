@@ -150,12 +150,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Go back to home
         document.querySelector('[data-target="view-dashboard"]').click();
       } else {
-        const errData = await res.json();
-        alert('Gagal menyimpan data: ' + (errData.error || 'Terjadi kesalahan server. Jika di Vercel, pastikan DATABASE_URL Supabase sudah di-set!'));
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const errData = await res.json();
+          alert('Gagal menyimpan data: ' + (errData.error || 'Terjadi kesalahan server.'));
+        } else {
+          alert('Kesalahan Server (Bukan JSON). Status: ' + res.status + '. Pastikan password database di Vercel benar!');
+        }
       }
     } catch (err) {
       console.error(err);
-      alert('Gagal menghubungi server.');
+      alert('Gagal menghubungi server. Pastikan koneksi internet jalan dan server tidak error.');
     }
   });
 
