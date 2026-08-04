@@ -18,6 +18,7 @@ const initLocalDb = async () => {
   try {
     await fs.access(localDbPath);
   } catch {
+    await fs.mkdir(path.dirname(localDbPath), { recursive: true }).catch(() => {});
     const initialData = {
       transactions: [],
       goals: [],
