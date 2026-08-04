@@ -78,16 +78,16 @@ document.addEventListener('DOMContentLoaded', () => {
           <h4>${tx.title}</h4>
           <p>${tx.category} • ${new Date(tx.date).toLocaleDateString()}</p>
         </div>
-        <div class="tx-amount">${tx.type === 'income' ? '+' : '-'}$${parseFloat(tx.amount).toFixed(2)}</div>
+        <div class="tx-amount">${tx.type === 'income' ? '+' : '-'}Rp ${parseFloat(tx.amount).toLocaleString('id-ID')}</div>
       `;
       txList.appendChild(div);
     });
 
     state.balance = income - expense;
     
-    document.getElementById('display-balance').innerText = `$${state.balance.toFixed(2)}`;
-    document.getElementById('display-income').innerText = `$${income.toFixed(2)}`;
-    document.getElementById('display-expense').innerText = `$${expense.toFixed(2)}`;
+    document.getElementById('display-balance').innerText = `Rp ${state.balance.toLocaleString('id-ID')}`;
+    document.getElementById('display-income').innerText = `Rp ${income.toLocaleString('id-ID')}`;
+    document.getElementById('display-expense').innerText = `Rp ${expense.toLocaleString('id-ID')}`;
 
     updateBorosAI(state.balance, expense, income);
   }

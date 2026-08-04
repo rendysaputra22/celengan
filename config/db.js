@@ -28,7 +28,7 @@ const initLocalDb = async () => {
         categories: {}
       },
       settings: {
-        currency: 'USD',
+        currency: 'IDR',
         theme: 'comic',
       },
       notes: []
